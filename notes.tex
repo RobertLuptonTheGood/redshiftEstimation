@@ -1,0 +1,113 @@
+\documentclass[12pt]{article}
+%\usepackage{graphicx}
+\usepackage[top=1cm, bottom=2cm, left=2cm, right=2cm]{geometry} 
+\usepackage{xspace}
+\usepackage{perpage}
+%
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}}
+\MakePerPage{footnote}
+%
+\begin{document}
+\title{What is a Photometric Redshift?}
+\author{Brice M\'enard and Robert Lupton}
+%\date{1996-03-06}
+\maketitle
+
+\newcommand{\eg}{\textit{e.g.}\xspace}
+\newcommand\Fi{\{F_i\}}
+\newcommand\FdFi{\{F_i, dF_i\}}
+\newcommand{\ie}{\textit{i.e.}\xspace}
+\newcommand{\photoz}{z_p\xspace}
+\newcommand{\clusterz}{z_c\xspace}
+
+\section{Introduction}
+
+In a formal sense photometric and spectroscopic measurements are the same; in both cases we make a number of
+measurements of an object's flux $\Fi$, either a relatively small number (photometry) or a large or very
+large number (spectroscopy).
+
+Measuring an object's redshift from spectroscopic data is typically achieved by looking for reasonably-well
+localised astrophysical features in $\Fi$ (\eg emission lines of hydrogen or oxygen; the calcium
+triplet; the 4000\AA{} break) and directly deducing the redshift along with other characteristics of the
+object such as its star formation rate or metallicity.  The continuum may or may not be neglected in this
+analysis.
+
+Broadband photometric data\footnote{Narrow-band datasets such as COMBO-17 are an intermediate case which we
+  need not explicitly discuss here.} can be analysed in a similar way, looking for continuum features such as
+the Balmer or Lyman break.  Unfortunately these features can seldom be unambigously identified from four or
+five bands (and thus three or four colours), so rather than local measures, such as an emission line, the
+entire spectrum is considered simultaneously and including the continuum in the analysis is essential.
+
+In both cases we are defining a mapping from $\Fi$ to a redshift. For spectroscopic data
+at high signal-to-noise and resolution the vector $\Fi$ may define a small-enough probability cloud in a
+high-enough dimensional space that all objects in our sample are well separated.  In this case, it makes sense
+to talk about the object's redshift.\footnote{Or redshifts; even in this ideal universe there can more than one
+  possible redshift, the obvious example being a spectrum with a single unresolved emission line.}
+
+When processing photometric data, or for spectroscopy of faint objects at relatively low effective dispersion
+it may not be possible to unambiguously assign a redshift (is this feature [OII], [OIII] or Ly$_\alpha$?  Is
+that broad break due to the Balmer or Lyman series?) and all we can do is to determine a probability
+distribution $p(z)$.\footnote{Or, more precisely, a joint probability of its redshift and other properties.}
+
+Once we also consider the errors in the measured fluxes we must consider all the redshifts consistent with our
+measured $\FdFi$ resulting in a possibly-multimodal $p(z)$ whose form is partially intrinsic and partially due
+to our measurement errors.  In reality this $p(z)$ does not apply to a given object, but merely to a class of
+objects with statistically indistinguishable $\Fi$.
+
+This ability to extract redshift information from photometric data allows us to extract
+important astrophysical information from extragalactic astronomical datasets; in the context of large sky
+surveys, the information content in $p(z | \Fi)$ has even become a metric to best define some of the basic photometric parameters of celestial sources.
+
+\section{Measuring $p(z | \Fi)$}
+
+How should we measure the mapping from flux to redshift?  There are a number of approaches:
+
+\begin{itemize}
+\item
+  For each object in the sample we may attempt to fit a theoretical or observed spectrum to
+  the available fluxes.
+
+\item
+  Given a training set of galaxies with known (presumably spectroscopic) redshifts we may use machine learning
+  techniques to assign a redshift to each object in the sample.
+
+\item
+  As argued above, we are not really interested in the redshift of an individual object, but with
+  those a set of indistinguishable objects.  We may use the method of `clustering redshifts' to
+  estimate $p(z)$ directly for any cell in colour space.
+\end{itemize}
+
+\section{Properties of the Mapping between Colour and Redshift}
+
+As we have emphasized, the quantity of interest is the mapping between the photometric and redshift spaces,
+not the redshift estimate of a given object. This mapping has a number of properties:
+
+\begin{itemize}
+\item uniqueness: one to one or one to many mapping.
+  This needs to be considered in both directions.
+
+\item compactness: $dV/d\,\mbox{\it color} \rightarrow dV/dz$ where $V$ is the volume spanned by the sources in the
+  global photometric or redshift space.
+
+\item dimensionality of the photometric space. How large is it given a survey? While classical photometric redshifts focus primarily on colors, clustering redshifts can make use of all the dimensions of the photometric space.
+
+\item inverse mapping: how does given a redshift range map onto the photometric space?
+
+\item effects due to stellar contamination in the `galaxy' sample: the cross-correlation coefficient between the spatial position of photometric sources and a set of spectroscopic objects can be used to infer the proportions of stars and galaxies in the photometric sample. 
+
+One way to proceed with this is to consider two sets of spatial cross-correlations with two spectroscopic
+samples having different clustering bias.
+
+\end{itemize}
+
+Comments:
+
+Having one characterization of such a mapping implies that:
+\begin{itemize}
+\item there is no need to store photo-z information per galaxy. This is relevant for the LSST database.
+\item The structure of the horizontal stripes in a $d^2N/(d\clusterz d\photoz)$ diagram contains information on the stellar contamination as a function of $\photoz$ or any other parameter of consideration.
+
+\item I will claim that one of the ultimate quests in observational extragalactic astronomy is to characterize and understand the mapping between the photometric space and redshift space. This is a fundamental `object' one might want to use to constrain any models of galaxy formation and cosmology from observations.
+\end{itemize}
+
+\end{document}
